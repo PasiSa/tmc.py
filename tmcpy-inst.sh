@@ -22,12 +22,21 @@ DOCSURL="https://juhaniimberg.github.io/tmc.py/"
 
 VENVPATH=$HOME/.venv_tmc
 BINPATH=$HOME/.local/bin
+TEMPPATH=$HOME/.local/temp
+GITREPO=https://github.com/PasiSa/tmc.py.git
 
 PATHMODIFY='export PATH=$PATH:$HOME/.local/bin'
 
 function pipinstall-tmcpy() {
     # installs or upgrades
     $VENVPATH/bin/pip -q install --upgrade tmc;
+}
+
+function gitinstall-tmcpy() {
+    rm -rf $TEMPPATH &>/dev/null
+    mkdir -p $TEMPPATH
+    git clone $GITREPO $TEMPPATH/git-tmcpy
+    $VENVPATH/bin/python $TEMPPATH/git-tmcpy/setup.py install
 }
 
 function uninstall-tmcpy() {
@@ -66,7 +75,10 @@ function install-tmcpy() {
 
     create_venv
 
-    pipinstall-tmcpy
+    # Leaving this to remind that in future we might want to have an
+    # option to use pip again, instead of git
+    # pipinstall-tmcpy
+    gitinstall-tmcpy
 
     mkdir -p $BINPATH
 
@@ -114,7 +126,7 @@ then
         read -p "Upgrade (u), Reinstall(r), Uninstall(d) or Quit(q)? " choosed < /dev/tty;
         hrline
         case $choosed in
-            [Uu]* ) pipinstall-tmcpy; exit 0;;
+            [Uu]* ) gitinstall-tmcpy; exit 0;;
             [Rr]* ) uninstall-tmcpy; break;;
             [Dd]* ) uninstall-tmcpy; exit 0;;
             [Qq]* ) exit;;
