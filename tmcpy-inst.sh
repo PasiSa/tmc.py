@@ -36,6 +36,7 @@ function gitinstall-tmcpy() {
     rm -rf $TEMPPATH &>/dev/null
     mkdir -p $TEMPPATH
     git clone $GITREPO $TEMPPATH/git-tmcpy
+    cd $TEMPPATH/git-tmcpy
     $VENVPATH/bin/python $TEMPPATH/git-tmcpy/setup.py install
 }
 
