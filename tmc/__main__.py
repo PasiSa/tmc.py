@@ -112,9 +112,10 @@ def configure(server=None, username=None, password=None, tid=None, auto=False):
     reset_db()
     if not server:
         while True:
-            server = input("Server url [https://tmc.mooc.fi/mooc/]: ").strip()
+            defaulturl = "https://src.aalto.fi/tmc/org/aalto/"
+            server = input("Server url [" + defaulturl + "]: ").strip()
             if len(server) == 0:
-                server = "https://tmc.mooc.fi/mooc/"
+                server = defaulturl
             if not server.endswith('/'):
                 server += '/'
             if not (server.startswith("http://")
